@@ -31,7 +31,7 @@ const App = () => {
     
     const bestAnecdote = {
       text: anecdotes[index],
-      votes: max
+      votes: points[index]
     }
     return bestAnecdote
   }
