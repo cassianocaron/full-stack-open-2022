@@ -26,8 +26,7 @@ const App = () => {
   }
 
   const findBestAnecdote = () => {
-    const max = Math.max(...points)
-    const index = points.indexOf(max)
+    const index = points.indexOf(Math.max(...points))
     
     const bestAnecdote = {
       text: anecdotes[index],
