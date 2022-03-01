@@ -25,9 +25,7 @@ const App = () => {
     setPoints(pointsCopy)
   }
 
-  const findBestAnecdote = () => {
-    return points.indexOf(Math.max(...points))
-  }
+  const bestAnecdoteIndex = points.indexOf(Math.max(...points))
 
   return (
     <div>
@@ -37,8 +35,8 @@ const App = () => {
       <Button handleClick={() => addVote()} text='vote' />
       <Button handleClick={() => setSelected(Math.floor(Math.random() * anecdotes.length))} text='next anecdote' />
       <h1>Anecdote with most votes</h1>
-      <div>{anecdotes[findBestAnecdote()]}</div>
-      <div>has {points[findBestAnecdote()]} votes</div>
+      <div>{anecdotes[bestAnecdoteIndex]}</div>
+      <div>has {points[bestAnecdoteIndex]} votes</div>
     </div>
   )
 }
