@@ -26,13 +26,7 @@ const App = () => {
   }
 
   const findBestAnecdote = () => {
-    const index = points.indexOf(Math.max(...points))
-    
-    const bestAnecdote = {
-      text: anecdotes[index],
-      votes: points[index]
-    }
-    return bestAnecdote
+    return points.indexOf(Math.max(...points))
   }
 
   return (
@@ -43,8 +37,8 @@ const App = () => {
       <Button handleClick={() => addVote()} text='vote' />
       <Button handleClick={() => setSelected(Math.floor(Math.random() * anecdotes.length))} text='next anecdote' />
       <h1>Anecdote with most votes</h1>
-      <div>{findBestAnecdote().text}</div>
-      <div>has {findBestAnecdote().votes} votes</div>
+      <div>{anecdotes[findBestAnecdote()]}</div>
+      <div>has {points[findBestAnecdote()]} votes</div>
     </div>
   )
 }
