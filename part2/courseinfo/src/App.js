@@ -35,7 +35,7 @@ const Total = ({ parts }) => {
     return sum + part.exercises;
   }, 0);
 
-  return <div>total of {total} exercises</div>;
+  return <strong>total of {total} exercises</strong>;
 };
 
 const App = () => {
