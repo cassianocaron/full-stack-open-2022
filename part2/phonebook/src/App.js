@@ -24,8 +24,12 @@ const App = () => {
     );
 
     if (currentName.length === 0) {
-      setPersons(persons.concat(newPerson));
-      setPersonsToShow(personsToShow.concat(newPerson));
+      axios
+        .post("http://localhost:3001/persons", newPerson)
+        .then((response) => {
+          setPersons(persons.concat(newPerson));
+          setPersonsToShow(personsToShow.concat(newPerson));
+        });
     } else {
       alert(`${newPerson.name} is already added to phonebook`);
     }
