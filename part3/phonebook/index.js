@@ -62,6 +62,20 @@ const generateId = () => {
 app.post("/api/persons", (request, response) => {
   const body = request.body;
 
+  if (!body.name || !body.number) {
+    return response.status(400).json({
+      error: "the name or number is missing",
+    });
+  }
+
+  const personExists = persons.find((person) => person.name === body.name);
+
+  if (personExists) {
+    return response.status(400).json({
+      error: "name must be unique",
+    });
+  }
+
   const person = {
     id: generateId(),
     name: body.name,
