@@ -52,32 +52,32 @@ app.get("/api/persons", (request, response) => {
 //   return Math.floor(Math.random() * 1000);
 // };
 
-// app.post("/api/persons", (request, response) => {
-//   const body = request.body;
+app.post("/api/persons", (request, response) => {
+  const body = request.body;
 
-//   if (!body.name || !body.number) {
-//     return response.status(400).json({
-//       error: "the name or number is missing",
-//     });
-//   }
+  if (!body.name || !body.number) {
+    return response.status(400).json({
+      error: "the name or number is missing",
+    });
+  }
 
-//   const personExists = persons.find((person) => person.name === body.name);
+  // const personExists = persons.find((person) => person.name === body.name);
 
-//   if (personExists) {
-//     return response.status(400).json({
-//       error: "name must be unique",
-//     });
-//   }
+  // if (personExists) {
+  //   return response.status(400).json({
+  //     error: "name must be unique",
+  //   });
+  // }
 
-//   const person = {
-//     id: generateId(),
-//     name: body.name,
-//     number: body.number,
-//   };
+  const person = new Person({
+    name: body.name,
+    number: body.number,
+  });
 
-//   persons = persons.concat(person);
-//   response.json(person);
-// });
+  person.save().then((savedPerson) => {
+    response.json(savedPerson);
+  });
+});
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => {
