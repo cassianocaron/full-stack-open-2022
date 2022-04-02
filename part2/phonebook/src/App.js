@@ -32,11 +32,14 @@ const App = () => {
     );
 
     if (currentName.length === 0) {
-      personService.create(newPerson).then((returnedPerson) => {
-        setPersons(persons.concat(returnedPerson));
-        setPersonsToShow(persons.concat(returnedPerson));
-        setMessage(`Added ${newPerson.name}`);
-      });
+      personService
+        .create(newPerson)
+        .then((returnedPerson) => {
+          setPersons(persons.concat(returnedPerson));
+          setPersonsToShow(persons.concat(returnedPerson));
+          setMessage(`Added ${newPerson.name} to phonebook`);
+        })
+        .catch((error) => setMessage(error.response.data.error));
     } else {
       if (
         window.confirm(
@@ -51,13 +54,9 @@ const App = () => {
             );
             setPersons(updatedPersons);
             setPersonsToShow(updatedPersons);
-            setMessage(`Updated ${newPerson.name}`);
+            setMessage(`Updated ${newPerson.name}'s number`);
           })
-          .catch((error) => {
-            setMessage(
-              `Information of ${newPerson.name} has already been removed from the server`
-            );
-          });
+          .catch((error) => setMessage(error.response.data.error));
       }
     }
     setNewPerson({ name: "", number: "" });
@@ -69,6 +68,7 @@ const App = () => {
         const updatedPersons = persons.filter((person) => person.id !== id);
         setPersons(updatedPersons);
         setPersonsToShow(updatedPersons);
+        setMessage(`Removed ${name} from phonebook`);
       });
     }
   };
