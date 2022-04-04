@@ -20,9 +20,12 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       setMessage(null);
     }, 5000);
+    return () => {
+      clearTimeout(timer);
+    };
   }, [message]);
 
   const addPerson = (event) => {
