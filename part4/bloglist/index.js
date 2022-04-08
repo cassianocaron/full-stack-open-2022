@@ -3,6 +3,7 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const mongoose = require("mongoose");
+const logger = require("./utils/logger");
 require("dotenv").config();
 
 const blogSchema = new mongoose.Schema({
@@ -18,10 +19,10 @@ const mongoUrl = process.env.MONGODB_URI;
 mongoose
   .connect(mongoUrl)
   .then(() => {
-    console.log("connected to MongoDB");
+    logger.info("connected to MongoDB");
   })
   .catch((error) => {
-    console.error("error connecting to MongoDB:", error.message);
+    logger.error("error connecting to MongoDB:", error.message);
   });
 
 app.use(cors());
@@ -43,5 +44,5 @@ app.post("/api/blogs", (request, response) => {
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  logger.info(`Server running on port ${PORT}`);
 });
