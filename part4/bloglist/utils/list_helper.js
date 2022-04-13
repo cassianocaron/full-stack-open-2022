@@ -25,6 +25,8 @@ const favoriteBlog = (blogs) => {
 };
 
 const mostBlogs = (blogs) => {
+  if (blogs.length === 0) return null;
+
   const authorCount = lodash.countBy(blogs, "author");
 
   const topAuthor = Object.keys(authorCount).reduce((a, b) => {
@@ -38,6 +40,8 @@ const mostBlogs = (blogs) => {
 };
 
 const mostLikes = (blogs) => {
+  if (blogs.length === 0) return null;
+
   const likesCount = lodash(blogs)
     .groupBy("author")
     .map((objs, key) => ({
