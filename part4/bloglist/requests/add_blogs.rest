@@ -1,11 +1,11 @@
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1sdXVra2FpIiwiaWQiOiI2MjdjMGM3Mzk0NjMwZDMzYWYwMDQ2ZWMiLCJpYXQiOjE2NTIzNTkyMzMsImV4cCI6MTY1MjM2MjgzM30.PcniLlKsGO6v7yZJomrEKrrH3NP2vzTQroFkhv0l5fI
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFzZGZzZGEiLCJpZCI6IjYyN2QxM2MwN2NhNDRkYzY5YzkzNDU5NiIsImlhdCI6MTY1MjM3NjI3MCwiZXhwIjoxNjUyMzc5ODcwfQ.Z3PYrIxt3sZ-S3HbNXWPgM_9xZt-qZZrG_ZVWTscBv8
 
 {
   "title": "sadfdsa",
   "author": "Dan",
   "likes": 5,
-  "url": "www.example.com",
-  "userId": "627bd836a91eb9d6132e2d11"
+  "url": "www.example.com"
+  
 }
