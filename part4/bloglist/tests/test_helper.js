@@ -52,19 +52,6 @@ const initialBlogs = [
   },
 ];
 
-const initialUsers = [
-  {
-    username: "hellas",
-    name: "Arto Hellas",
-    id: "627bd77f33e418039572306d",
-  },
-  {
-    username: "mluukkai",
-    name: "Matti Luukkainen",
-    id: "627bd7b233e4180395723071",
-  },
-];
-
 const blogsInDb = async () => {
   const blogs = await Blog.find({});
   return blogs.map((blog) => blog.toJSON());
@@ -75,4 +62,4 @@ const usersInDb = async () => {
   return users.map((user) => user.toJSON());
 };
 
-module.exports = { initialBlogs, initialUsers, blogsInDb, usersInDb };
+module.exports = { initialBlogs, blogsInDb, usersInDb };
