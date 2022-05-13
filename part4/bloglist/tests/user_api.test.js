@@ -11,7 +11,7 @@ describe("when there is initially one user saved", () => {
     await User.deleteMany({});
 
     const passwordHash = await bcrypt.hash("password", 10);
-    const user = await new User({ username: "name", passwordHash }).save();
+    await new User({ username: "name", passwordHash }).save();
   });
 
   test("user is returned", async () => {
