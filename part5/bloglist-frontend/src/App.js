@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Blogs from "./components/Blogs";
 import LoginForm from "./components/LoginForm";
 import Notification from "./components/Notification";
+import BlogForm from "./components/BlogForm";
 import blogService from "./services/blogs";
 import loginService from "./services/login";
 
@@ -39,6 +40,7 @@ const App = () => {
         password,
       });
       window.localStorage.setItem("loggedBlogappUser", JSON.stringify(user));
+      blogService.setToken(user.token);
       setUser(user);
     } catch (exception) {
       setErrorMessage("Wrong Credentials");
@@ -48,6 +50,19 @@ const App = () => {
   const handleLogout = () => {
     window.localStorage.clear();
     setUser(null);
+  };
+
+  const createBlog = async (title, author, url) => {
+    try {
+      const blog = await blogService.create({
+        title,
+        author,
+        url,
+      });
+      setBlogs(blogs.concat(blog));
+    } catch (exception) {
+      setErrorMessage("Something went horribly wrong");
+    }
   };
 
   return (
@@ -62,6 +77,7 @@ const App = () => {
             <span className="active-user">{user.name}</span> logged in
             <button onClick={handleLogout}>logout</button>
           </p>
+          <BlogForm createBlog={createBlog} />
           <Blogs blogs={blogs} />
         </div>
       )}

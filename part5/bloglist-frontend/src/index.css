@@ -23,6 +23,10 @@
   font-weight: bold;
 }
 
+table {
+  margin-top: 25px;
+}
+
 table,
 th,
 td {
