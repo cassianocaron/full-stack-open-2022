@@ -8,21 +8,22 @@ import loginService from "./services/login";
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
-  const [errorMessage, setErrorMessage] = useState(null);
+  const [message, setMessage] = useState(null);
   const [user, setUser] = useState(null);
 
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs));
   }, []);
 
+  // Clear notification after 5 seconds
   useEffect(() => {
     const timer = setTimeout(() => {
-      setErrorMessage(null);
+      setMessage(null);
     }, 5000);
     return () => {
       clearTimeout(timer);
     };
-  }, [errorMessage]);
+  }, [message]);
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("loggedBlogappUser");
@@ -43,7 +44,7 @@ const App = () => {
       blogService.setToken(user.token);
       setUser(user);
     } catch (exception) {
-      setErrorMessage("Wrong Credentials");
+      setMessage("Error: Wrong credentials");
     }
   };
 
@@ -60,15 +61,16 @@ const App = () => {
         url,
       });
       setBlogs(blogs.concat(blog));
+      setMessage(`A new blog ${title} by ${author} added`);
     } catch (exception) {
-      setErrorMessage("Something went horribly wrong");
+      setMessage("Error: Please fill out all fields to add a new blog");
     }
   };
 
   return (
     <div>
       <h1 className="title">Blogs</h1>
-      <Notification message={errorMessage} />
+      <Notification message={message} />
       {user === null ? (
         <LoginForm handleLogin={handleLogin} />
       ) : (
