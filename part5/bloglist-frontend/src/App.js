@@ -44,7 +44,7 @@ const App = () => {
       blogService.setToken(user.token);
       setUser(user);
     } catch (exception) {
-      setMessage("Error: Wrong credentials");
+      setMessage("error" + exception.response.data.error);
     }
   };
 
@@ -63,7 +63,7 @@ const App = () => {
       setBlogs(blogs.concat(blog));
       setMessage(`A new blog ${title} by ${author} added`);
     } catch (exception) {
-      setMessage("Error: Please fill out all fields to add a new blog");
+      setMessage("error" + exception.response.data.error);
     }
   };
 
