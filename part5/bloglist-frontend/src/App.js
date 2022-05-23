@@ -1,8 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+
 import Blogs from "./components/Blogs";
 import LoginForm from "./components/LoginForm";
 import Notification from "./components/Notification";
 import BlogForm from "./components/BlogForm";
+import Togglable from "./components/Togglable";
+
 import blogService from "./services/blogs";
 import loginService from "./services/login";
 
@@ -55,6 +58,7 @@ const App = () => {
 
   const createBlog = async (title, author, url) => {
     try {
+      blogFormRef.current.toggleVisibility();
       const blog = await blogService.create({
         title,
         author,
@@ -66,6 +70,8 @@ const App = () => {
       setMessage("error" + exception.response.data.error);
     }
   };
+
+  const blogFormRef = useRef();
 
   return (
     <div>
@@ -79,7 +85,9 @@ const App = () => {
             <span className="active-user">{user.name}</span> logged in
             <button onClick={handleLogout}>logout</button>
           </p>
-          <BlogForm createBlog={createBlog} />
+          <Togglable buttonLabel="new blog" ref={blogFormRef}>
+            <BlogForm createBlog={createBlog} />
+          </Togglable>
           <Blogs blogs={blogs} />
         </div>
       )}

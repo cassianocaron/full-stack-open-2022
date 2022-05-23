@@ -1,7 +1,7 @@
-@import url("https://fonts.googleapis.com/css2?family=Cantarell&family=Roboto+Slab&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap");
 
 * {
-  font-family: "Roboto Slab", "Cantarell", serif;
+  font-family: "Noto Sans", sans-serif;
 }
 
 .title {
