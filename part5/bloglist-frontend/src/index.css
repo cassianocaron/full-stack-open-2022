@@ -31,13 +31,13 @@
   font-weight: bold;
 }
 
-table {
-  margin-top: 25px;
+.blog-style {
+  padding: 10px 4px;
+  border: 1px solid black;
+  margin-bottom: 5px;
+  border-radius: 4px;
 }
 
-table,
-th,
-td {
-  border: 1px solid gray;
-  border-collapse: collapse;
+.new-blog-btn {
+  margin-bottom: 20px;
 }

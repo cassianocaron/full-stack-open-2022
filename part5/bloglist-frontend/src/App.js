@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 
-import Blogs from "./components/Blogs";
+import Blog from "./components/Blog";
 import LoginForm from "./components/LoginForm";
 import Notification from "./components/Notification";
 import BlogForm from "./components/BlogForm";
@@ -88,7 +88,9 @@ const App = () => {
           <Togglable buttonLabel="new blog" ref={blogFormRef}>
             <BlogForm createBlog={createBlog} />
           </Togglable>
-          <Blogs blogs={blogs} />
+          {blogs.map((blog) => (
+            <Blog key={blog.id} blog={blog} />
+          ))}
         </div>
       )}
     </div>
