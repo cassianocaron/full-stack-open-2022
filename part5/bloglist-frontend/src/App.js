@@ -71,6 +71,18 @@ const App = () => {
     }
   };
 
+  const updateLikes = async (id, updatedBlog) => {
+    try {
+      const response = await blogService.update(id, updatedBlog);
+
+      setBlogs(
+        blogs.map((blog) => (blog.id === response.id ? response : blog))
+      );
+    } catch (exception) {
+      setMessage("error" + exception.response.data.error);
+    }
+  };
+
   const blogFormRef = useRef();
 
   return (
@@ -89,7 +101,7 @@ const App = () => {
             <BlogForm createBlog={createBlog} />
           </Togglable>
           {blogs.map((blog) => (
-            <Blog key={blog.id} blog={blog} />
+            <Blog key={blog.id} blog={blog} updateLikes={updateLikes} />
           ))}
         </div>
       )}
