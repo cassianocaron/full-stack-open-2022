@@ -14,8 +14,6 @@ const App = () => {
   const [message, setMessage] = useState(null);
   const [user, setUser] = useState(null);
 
-  console.log(user);
-
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs));
   }, []);
