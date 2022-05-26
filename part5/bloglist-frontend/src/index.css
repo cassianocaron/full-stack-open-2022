@@ -4,9 +4,11 @@
   font-family: "Noto Sans", sans-serif;
 }
 
-.title {
-  color: green;
-  font-weight: bold;
+button {
+  cursor: pointer;
+  border: 1px solid black;
+  border-radius: 2px;
+  padding: 2px 5px;
 }
 
 .error,
@@ -23,12 +25,23 @@
   color: red;
 }
 
+.title,
 .success {
   color: green;
 }
 
+.title,
 .active-user {
   font-weight: bold;
+}
+
+.new-blog-btn {
+  background-color: rgb(51, 246, 113);
+  margin-bottom: 20px;
+}
+
+.cancel-btn {
+  margin-bottom: 20px;
 }
 
 .blog-style {
@@ -38,6 +51,10 @@
   border-radius: 4px;
 }
 
-.new-blog-btn {
-  margin-bottom: 20px;
+.like-btn {
+  background-color: rgb(0, 242, 255);
+}
+
+.delete-btn {
+  background-color: rgb(255, 67, 99);
 }

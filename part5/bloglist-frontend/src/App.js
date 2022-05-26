@@ -8,6 +8,7 @@ import Togglable from "./components/Togglable";
 
 import blogService from "./services/blogs";
 import loginService from "./services/login";
+import userService from "./services/users";
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
@@ -64,20 +65,34 @@ const App = () => {
         author,
         url,
       });
-      setBlogs(blogs.concat(blog));
+      const user = await userService.getUser(blog.user);
+      setBlogs(blogs.concat({ ...blog, name: user.name }));
       setMessage(`A new blog ${title} by ${author} added`);
     } catch (exception) {
       setMessage("error" + exception.response.data.error);
     }
   };
 
-  const updateLikes = async (id, updatedBlog) => {
+  const updateLikes = async (id, blogToUpdate) => {
     try {
-      const response = await blogService.update(id, updatedBlog);
+      await blogService.update(id, blogToUpdate);
 
-      setBlogs(
-        blogs.map((blog) => (blog.id === response.id ? response : blog))
+      const newBlogs = blogs.map((blog) =>
+        blog.id === id ? { ...blog, likes: blog.likes + 1 } : blog
       );
+      setBlogs(newBlogs);
+    } catch (exception) {
+      setMessage("error" + exception.response.data.error);
+    }
+  };
+
+  const deleteBlog = async (blogId) => {
+    try {
+      await blogService.remove(blogId);
+
+      const updatedBlogs = blogs.filter((blog) => blog.id !== blogId);
+      setBlogs(updatedBlogs);
+      setMessage("Blog removed");
     } catch (exception) {
       setMessage("error" + exception.response.data.error);
     }
@@ -103,7 +118,12 @@ const App = () => {
           {blogs
             .sort((a, b) => b.likes - a.likes)
             .map((blog) => (
-              <Blog key={blog.id} blog={blog} updateLikes={updateLikes} />
+              <Blog
+                key={blog.id}
+                blog={blog}
+                updateLikes={updateLikes}
+                deleteBlog={deleteBlog}
+              />
             ))}
         </div>
       )}
