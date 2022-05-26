@@ -1,15 +1,10 @@
 import axios from "axios";
-import jwt from "jwt-decode";
 const baseUrl = "/api/blogs";
 
 let token = null;
 
 const setToken = (newToken) => {
   token = `bearer ${newToken}`;
-};
-
-const getUserId = () => {
-  return token ? jwt(token).id : false;
 };
 
 const getAll = async () => {
@@ -43,7 +38,6 @@ const remove = async (id) => {
 // eslint-disable-next-line
 export default {
   setToken,
-  getUserId,
   getAll,
   create,
   update,

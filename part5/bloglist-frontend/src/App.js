@@ -8,12 +8,13 @@ import Togglable from "./components/Togglable";
 
 import blogService from "./services/blogs";
 import loginService from "./services/login";
-import userService from "./services/users";
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
   const [message, setMessage] = useState(null);
   const [user, setUser] = useState(null);
+
+  console.log(user);
 
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs));
@@ -65,8 +66,7 @@ const App = () => {
         author,
         url,
       });
-      const user = await userService.getUser(blog.user);
-      setBlogs(blogs.concat({ ...blog, name: user.name }));
+      setBlogs(blogs.concat(blog));
       setMessage(`A new blog ${title} by ${author} added`);
     } catch (exception) {
       setMessage("error" + exception.response.data.error);
@@ -75,10 +75,9 @@ const App = () => {
 
   const updateLikes = async (id, blogToUpdate) => {
     try {
-      await blogService.update(id, blogToUpdate);
-
+      const updatedBlog = await blogService.update(id, blogToUpdate);
       const newBlogs = blogs.map((blog) =>
-        blog.id === id ? { ...blog, likes: blog.likes + 1 } : blog
+        blog.id === id ? updatedBlog : blog
       );
       setBlogs(newBlogs);
     } catch (exception) {
@@ -123,6 +122,7 @@ const App = () => {
                 blog={blog}
                 updateLikes={updateLikes}
                 deleteBlog={deleteBlog}
+                username={user.username}
               />
             ))}
         </div>

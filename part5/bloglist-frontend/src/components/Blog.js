@@ -1,10 +1,7 @@
 import { useState } from "react";
-import blogService from "../services/blogs";
 
-const Blog = ({ blog, updateLikes, deleteBlog }) => {
+const Blog = ({ blog, updateLikes, deleteBlog, username }) => {
   const [visible, setVisible] = useState(false);
-
-  const userId = blogService.getUserId();
 
   const toggleVisibility = () => {
     setVisible(!visible);
@@ -43,8 +40,8 @@ const Blog = ({ blog, updateLikes, deleteBlog }) => {
               like
             </button>{" "}
           </div>
-          <div>{blog.user.name || blog.name}</div>
-          {(blog.user.id === userId || blog.user === userId) && (
+          <div>{blog.user.name}</div>
+          {blog.user.username === username && (
             <button className="delete-btn" onClick={handleDelete}>
               delete
             </button>
