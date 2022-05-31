@@ -99,15 +99,17 @@ const App = () => {
 
   return (
     <div>
-      <h1 className="title">Blogs</h1>
+      <h1 className="header-title">Blogs</h1>
       <Notification message={message} />
       {user === null ? (
         <LoginForm handleLogin={handleLogin} />
       ) : (
         <div>
           <p>
-            <span className="active-user">{user.name}</span> logged in
-            <button onClick={handleLogout}>logout</button>
+            <span className="active-user">{user.name}</span> logged in{" "}
+            <button className="logout-btn" onClick={handleLogout}>
+              logout
+            </button>
           </p>
           <Togglable buttonLabel="new blog" ref={blogFormRef}>
             <BlogForm createBlog={createBlog} />

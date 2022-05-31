@@ -25,12 +25,12 @@ button {
   color: red;
 }
 
-.title,
+.header-title,
 .success {
   color: green;
 }
 
-.title,
+.header-title,
 .active-user {
   font-weight: bold;
 }
@@ -55,6 +55,7 @@ button {
   background-color: rgb(0, 242, 255);
 }
 
+.logout-btn,
 .delete-btn {
-  background-color: rgb(255, 67, 99);
+  background-color: rgb(240, 75, 90);
 }
