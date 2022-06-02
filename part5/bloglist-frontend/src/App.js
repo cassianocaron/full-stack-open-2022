@@ -107,7 +107,7 @@ const App = () => {
         <div>
           <p>
             <span className="active-user">{user.name}</span> logged in{" "}
-            <button className="logout-btn" onClick={handleLogout}>
+            <button id="logout-btn" onClick={handleLogout}>
               logout
             </button>
           </p>
