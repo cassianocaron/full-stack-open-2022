@@ -9,6 +9,7 @@ import {
 
 const AnecdoteList = () => {
   const anecdotes = useSelector((state) => state.anecdotes);
+  const filter = useSelector((state) => state.filter);
   const dispatch = useDispatch();
 
   const handleAddVote = (id) => {
@@ -20,15 +21,17 @@ const AnecdoteList = () => {
 
   const sortedAnecdotes = orderBy(anecdotes, ["votes"], ["desc"]);
 
-  return sortedAnecdotes.map((anecdote) => (
-    <div key={anecdote.id}>
-      <div>{anecdote.content}</div>
-      <div>
-        has {anecdote.votes}
-        <button onClick={() => handleAddVote(anecdote.id)}>vote</button>
+  return sortedAnecdotes
+    .filter((anecdote) => anecdote.content.includes(filter))
+    .map((anecdote) => (
+      <div key={anecdote.id}>
+        <div>{anecdote.content}</div>
+        <div>
+          has {anecdote.votes}
+          <button onClick={() => handleAddVote(anecdote.id)}>vote</button>
+        </div>
       </div>
-    </div>
-  ));
+    ));
 };
 
 export default AnecdoteList;
