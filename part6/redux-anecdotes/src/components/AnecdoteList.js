@@ -2,6 +2,10 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addVote } from "../reducers/anecdoteReducer";
 import { orderBy } from "lodash";
+import {
+  setNotification,
+  hideNotification,
+} from "../reducers/notificationReducer";
 
 const AnecdoteList = () => {
   const anecdotes = useSelector((state) => state.anecdotes);
@@ -9,6 +13,9 @@ const AnecdoteList = () => {
 
   const handleAddVote = (id) => {
     dispatch(addVote(id));
+    const anecdote = anecdotes.find((anecdote) => anecdote.id === id);
+    dispatch(setNotification(`You voted for ${anecdote.content}`));
+    setTimeout(() => dispatch(hideNotification()), 5000);
   };
 
   const sortedAnecdotes = orderBy(anecdotes, ["votes"], ["desc"]);
