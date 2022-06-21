@@ -5,6 +5,7 @@ const Notification = () => {
   const style = {
     border: "solid",
     padding: 10,
+    marginBottom: 25,
     borderWidth: 1,
     borderRadius: 5,
     backgroundColor: "lightgrey",
