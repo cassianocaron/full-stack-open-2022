@@ -19,10 +19,14 @@ const notificationSlice = createSlice({
 
 export const { showNotification, hideNotification } = notificationSlice.actions;
 
-export const setNotification = (message, timer) => {
+export const setNotification = (message, time) => {
   return async (dispatch) => {
+    window.clearTimeout(window.timeout);
     dispatch(showNotification(message));
-    setTimeout(() => dispatch(hideNotification()), timer * 1000);
+    window.timeout = setTimeout(
+      () => dispatch(hideNotification()),
+      time * 1000
+    );
   };
 };
 
