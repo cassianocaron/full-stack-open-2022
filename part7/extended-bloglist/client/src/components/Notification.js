@@ -1,11 +1,14 @@
-const Notification = ({ message }) => {
-  if (message === null) return null;
+import { useSelector } from "react-redux";
+import { Alert } from "@mui/material";
 
-  if (message.includes("error")) {
-    return <div className="error">{message.substring(5)}</div>;
+const Notification = () => {
+  const notification = useSelector((state) => state.notification);
+
+  if (notification && notification.includes("error")) {
+    return <Alert severity="error">{notification.substring(6)}</Alert>;
   }
 
-  return <div className="success">{message}</div>;
+  return notification && <Alert severity="success">{notification}</Alert>;
 };
 
 export default Notification;

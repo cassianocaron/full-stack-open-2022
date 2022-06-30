@@ -1,55 +1,59 @@
-import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { likeBlog, deleteBlog } from "../reducers/blogReducer";
+import { Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import Comments from "./Comments";
 
-const Blog = ({ blog, updateLikes, deleteBlog, username }) => {
-  const [visible, setVisible] = useState(false);
+const Blog = ({ blog, user }) => {
+  if (!blog) return null;
 
-  const toggleVisibility = () => {
-    setVisible(!visible);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleLike = (blog) => {
+    const { id } = blog;
+    const blogToUpdate = { ...blog, likes: blog.likes + 1, user: blog.user.id };
+    dispatch(likeBlog(id, blogToUpdate));
   };
 
-  const handleLike = () => {
-    const blogToUpdate = {
-      title: blog.title,
-      author: blog.author,
-      url: blog.url,
-      likes: blog.likes + 1,
-      user: blog.user.id,
-    };
-    updateLikes(blog.id, blogToUpdate);
-  };
-
-  const handleDelete = () => {
+  const handleDelete = (blog) => {
     if (window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)) {
-      deleteBlog(blog.id);
+      dispatch(deleteBlog(blog));
+      navigate("/blogs");
     }
   };
 
   return (
-    <div className="blog">
+    <div>
+      <h2>
+        {blog.title} - {blog.author}
+      </h2>
+      <a href={blog.url}>{blog.url}</a>
       <div>
-        <span className="title">{blog.title} - </span>
-        <span className="author">{blog.author}</span>{" "}
-        <button id="view-btn" onClick={toggleVisibility}>
-          {visible ? "hide" : "show"}
-        </button>
+        {blog.likes} likes{" "}
+        <Button
+          variant="contained"
+          color="primary"
+          size="small"
+          onClick={() => handleLike(blog)}
+        >
+          like
+        </Button>{" "}
+        {user.username === blog.user.username && (
+          <Button
+            variant="contained"
+            color="error"
+            size="small"
+            onClick={() => handleDelete(blog)}
+          >
+            delete
+          </Button>
+        )}
       </div>
-      {visible && (
-        <div className="blog-details">
-          <div>{blog.url}</div>
-          <div>
-            Likes: {blog.likes}{" "}
-            <button id="like-btn" onClick={handleLike}>
-              like
-            </button>{" "}
-          </div>
-          <div>{blog.user.name}</div>
-          {blog.user.username === username && (
-            <button id="delete-btn" onClick={handleDelete}>
-              delete
-            </button>
-          )}
-        </div>
-      )}
+      <div>
+        added by <strong>{blog.user.name}</strong>
+      </div>
+      <Comments blog={blog} />
     </div>
   );
 };

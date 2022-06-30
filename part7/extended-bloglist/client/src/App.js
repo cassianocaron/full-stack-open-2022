@@ -1,133 +1,65 @@
-import { useState, useEffect, useRef } from "react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Container } from "@mui/material";
+import { useMatch, Routes, Route } from "react-router-dom";
 
-import Blog from "./components/Blog";
+import BlogList from "./components/BlogList";
 import LoginForm from "./components/LoginForm";
 import Notification from "./components/Notification";
-import BlogForm from "./components/BlogForm";
-import Togglable from "./components/Togglable";
+import NavBar from "./components/NavBar";
+import Blog from "./components/Blog";
+import Users from "./components/Users";
+import User from "./components/User";
 
-import blogService from "./services/blogs";
-import loginService from "./services/login";
+import { loggedUser } from "./reducers/loginReducer";
+import { initializeUsers } from "./reducers/userReducer";
 
 const App = () => {
-  const [blogs, setBlogs] = useState([]);
-  const [message, setMessage] = useState(null);
-  const [user, setUser] = useState(null);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    blogService.getAll().then((blogs) => setBlogs(blogs));
-  }, []);
+    dispatch(loggedUser());
+    dispatch(initializeUsers());
+  }, [dispatch]);
 
-  // Clear notification after 5 seconds
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setMessage(null);
-    }, 5000);
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [message]);
+  const user = useSelector((state) => state.login);
+  const blogs = useSelector((state) => state.blogs);
+  const users = useSelector((state) => state.users);
 
-  useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem("loggedBlogappUser");
-    if (loggedUserJSON) {
-      const user = JSON.parse(loggedUserJSON);
-      setUser(user);
-      blogService.setToken(user.token);
-    }
-  }, []);
+  const matchBlog = useMatch("/blogs/:id");
+  const blogId = matchBlog
+    ? blogs.find((blog) => blog.id === matchBlog.params.id)
+    : null;
 
-  const handleLogin = async (username, password) => {
-    try {
-      const user = await loginService.login({
-        username,
-        password,
-      });
-      window.localStorage.setItem("loggedBlogappUser", JSON.stringify(user));
-      blogService.setToken(user.token);
-      setUser(user);
-    } catch (exception) {
-      setMessage("error" + exception.response.data.error);
-    }
-  };
-
-  const handleLogout = () => {
-    window.localStorage.clear();
-    setUser(null);
-  };
-
-  const createBlog = async (title, author, url) => {
-    try {
-      blogFormRef.current.toggleVisibility();
-      const blog = await blogService.create({
-        title,
-        author,
-        url,
-      });
-      setBlogs(blogs.concat(blog));
-      setMessage(`A new blog ${title} by ${author} added`);
-    } catch (exception) {
-      setMessage("error" + exception.response.data.error);
-    }
-  };
-
-  const updateLikes = async (id, blogToUpdate) => {
-    try {
-      const updatedBlog = await blogService.update(id, blogToUpdate);
-      const newBlogs = blogs.map((blog) =>
-        blog.id === id ? updatedBlog : blog
-      );
-      setBlogs(newBlogs);
-    } catch (exception) {
-      setMessage("error" + exception.response.data.error);
-    }
-  };
-
-  const deleteBlog = async (blogId) => {
-    try {
-      await blogService.remove(blogId);
-
-      const updatedBlogs = blogs.filter((blog) => blog.id !== blogId);
-      setBlogs(updatedBlogs);
-      setMessage("Blog removed");
-    } catch (exception) {
-      setMessage("error" + exception.response.data.error);
-    }
-  };
-
-  const blogFormRef = useRef();
+  const matchUser = useMatch("/users/:id");
+  const userId = matchUser
+    ? users.find((user) => user.id === matchUser.params.id)
+    : null;
 
   return (
-    <div>
-      <h1 className="header-title">Blogs</h1>
-      <Notification message={message} />
+    <Container>
       {user === null ? (
-        <LoginForm handleLogin={handleLogin} />
+        <LoginForm />
       ) : (
         <div>
+          <NavBar />
+          <h2 className="header-title">Blogs App</h2>
           <p>
-            <span className="active-user">{user.name}</span> logged in{" "}
-            <button id="logout-btn" onClick={handleLogout}>
-              logout
-            </button>
+            Hello, <strong>{user.name}!</strong>
           </p>
-          <Togglable buttonLabel="new blog" ref={blogFormRef}>
-            <BlogForm createBlog={createBlog} />
-          </Togglable>
-          {blogs
-            .sort((a, b) => b.likes - a.likes)
-            .map((blog) => (
-              <Blog
-                key={blog.id}
-                blog={blog}
-                updateLikes={updateLikes}
-                deleteBlog={deleteBlog}
-                username={user.username}
-              />
-            ))}
+          <Notification />
+          <Routes>
+            <Route path="/blogs" element={<BlogList />} />
+            <Route
+              path="/blogs/:id"
+              element={<Blog blog={blogId} user={user} />}
+            />
+            <Route path="/users" element={<Users users={users} />} />
+            <Route path="/users/:id" element={<User user={userId} />} />
+          </Routes>
         </div>
       )}
-    </div>
+    </Container>
   );
 };
 

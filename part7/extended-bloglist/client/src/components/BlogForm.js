@@ -1,17 +1,28 @@
-import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { createBlog } from "../reducers/blogReducer";
+import { useField } from "../hooks/index";
+import { TextField, Button } from "@mui/material";
 
-const BlogForm = ({ createBlog }) => {
-  const [newBlog, setNewBlog] = useState({ title: "", author: "", url: "" });
+const BlogForm = () => {
+  const dispatch = useDispatch();
+  const { reset: resetTitle, ...title } = useField("text");
+  const { reset: resetAuthor, ...author } = useField("text");
+  const { reset: resetUrl, ...url } = useField("text");
 
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setNewBlog({ ...newBlog, [name]: value });
-  };
-
-  const handleCreateBlog = (event) => {
+  const handleCreateBlog = async (event) => {
     event.preventDefault();
-    createBlog(newBlog.title, newBlog.author, newBlog.url);
-    setNewBlog({ title: "", author: "", url: "" });
+
+    const newBlog = {
+      title: title.value,
+      author: author.value,
+      url: url.value,
+    };
+
+    resetTitle();
+    resetAuthor();
+    resetUrl();
+
+    dispatch(createBlog(newBlog));
   };
 
   return (
@@ -19,35 +30,17 @@ const BlogForm = ({ createBlog }) => {
       <h2>Create new blog</h2>
       <form onSubmit={handleCreateBlog}>
         <div>
-          title
-          <input
-            name="title"
-            type="text"
-            value={newBlog.title}
-            onChange={handleInputChange}
-          />
+          <TextField label="title" {...title} />
         </div>
         <div>
-          author
-          <input
-            name="author"
-            type="text"
-            value={newBlog.author}
-            onChange={handleInputChange}
-          />
+          <TextField label="author" {...author} />
         </div>
         <div>
-          url
-          <input
-            name="url"
-            type="text"
-            value={newBlog.url}
-            onChange={handleInputChange}
-          />
+          <TextField label="url" {...url} />
         </div>
-        <button id="create-blog-btn" type="submit">
+        <Button variant="contained" color="primary" size="small" type="submit">
           create
-        </button>
+        </Button>
       </form>
     </div>
   );
