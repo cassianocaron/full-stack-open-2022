@@ -1,9 +1,10 @@
 import { useField } from "../hooks/index";
 import { useDispatch } from "react-redux";
-import { TextField, Button } from "@mui/material";
-import { logUserIn } from "../reducers/loginReducer";
-import Notification from "./Notification";
 import { useNavigate } from "react-router-dom";
+import { logUserIn } from "../reducers/loginReducer";
+import { TextField, Button } from "@mui/material";
+
+import Notification from "./Notification";
 
 const LoginForm = () => {
   const { reset: resetUsername, ...username } = useField("text");
@@ -12,13 +13,13 @@ const LoginForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const onSubmit = (event) => {
+  const handleLogin = (event) => {
     event.preventDefault();
-    const user = {
+    const credentials = {
       username: username.value,
       password: password.value,
     };
-    dispatch(logUserIn(user));
+    dispatch(logUserIn(credentials));
     resetUsername();
     resetPassword();
     navigate("/blogs");
@@ -29,7 +30,7 @@ const LoginForm = () => {
       <h2 className="header-title">Blogs App</h2>
       <Notification />
       <h2>Log in to application</h2>
-      <form onSubmit={onSubmit}>
+      <form onSubmit={handleLogin}>
         <div>
           <TextField label="username" {...username} />
         </div>

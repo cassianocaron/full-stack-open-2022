@@ -24,8 +24,7 @@ const blogSlice = createSlice({
   },
 });
 
-export const { appendBlog, updateBlog, setBlogs, removeBlog } =
-  blogSlice.actions;
+const { appendBlog, updateBlog, setBlogs, removeBlog } = blogSlice.actions;
 
 export const initializeBlogs = () => {
   return async (dispatch) => {
@@ -41,12 +40,20 @@ export const createBlog = (blog) => {
       dispatch(appendBlog(newBlog));
       dispatch(
         createNotification(
-          `A new blog ${blog.title} by ${blog.author} added`,
+          {
+            message: `A new blog ${blog.title} by ${blog.author} added`,
+            type: "success",
+          },
           5
         )
       );
     } catch (error) {
-      dispatch(createNotification(`error ${error.response.data.error}`, 5));
+      dispatch(
+        createNotification(
+          { message: error.response.data.error, type: "error" },
+          5
+        )
+      );
     }
   };
 };
@@ -57,10 +64,18 @@ export const deleteBlog = (blog) => {
       await blogService.remove(blog.id);
       dispatch(removeBlog(blog.id));
       dispatch(
-        createNotification(`${blog.title} by ${blog.author} removed`, 5)
+        createNotification(
+          { message: `${blog.title} by ${blog.author} removed!`, type: "info" },
+          5
+        )
       );
     } catch (error) {
-      dispatch(createNotification(`error ${error.response.data.error}`, 5));
+      dispatch(
+        createNotification(
+          { message: error.response.data.error, type: "error" },
+          5
+        )
+      );
     }
   };
 };
@@ -70,9 +85,16 @@ export const likeBlog = (id, blog) => {
     try {
       const likedBlog = await blogService.addLike(id, blog);
       dispatch(updateBlog(likedBlog));
-      dispatch(createNotification(`You liked '${blog.title}'`, 5));
+      dispatch(
+        createNotification({ message: `${blog.title} liked`, type: "info" }, 5)
+      );
     } catch (error) {
-      dispatch(createNotification(`error ${error.response.data.error}`, 5));
+      dispatch(
+        createNotification(
+          { message: error.response.data.error, type: "error" },
+          5
+        )
+      );
     }
   };
 };
@@ -82,9 +104,19 @@ export const createComment = (id, comment) => {
     try {
       const commentedBlog = await blogService.addComment(id, comment);
       dispatch(updateBlog(commentedBlog));
-      dispatch(createNotification(`Comment ${comment} added`, 5));
+      dispatch(
+        createNotification(
+          { message: `Comment ${comment} added`, type: "info" },
+          5
+        )
+      );
     } catch (error) {
-      dispatch(createNotification(`error ${error.response.data.error}`, 5));
+      dispatch(
+        createNotification(
+          { message: error.response.data.error, type: "error" },
+          5
+        )
+      );
     }
   };
 };

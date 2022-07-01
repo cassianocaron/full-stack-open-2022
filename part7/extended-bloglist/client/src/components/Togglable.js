@@ -1,4 +1,4 @@
-import { useState, forwardRef, useImperativeHandle } from "react";
+import { useState, useImperativeHandle, forwardRef } from "react";
 import PropTypes from "prop-types";
 import { Button } from "@mui/material";
 
@@ -19,7 +19,7 @@ const Togglable = forwardRef((props, ref) => {
   });
 
   return (
-    <div>
+    <div id="new-blog-btn">
       <div style={hideWhenVisible}>
         <Button
           variant="contained"

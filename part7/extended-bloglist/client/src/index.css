@@ -1,13 +1,14 @@
-@import url("https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Cantarell&display=swap");
 
 * {
-  font-family: "Noto Sans", sans-serif;
+  font-family: "Cantarell", sans-serif;
 }
 
-.header-title {
-  color: green;
-}
-
+#new-blog-btn,
 #bloglist {
-  margin-top: 20px;
+  margin-top: 22px;
+}
+
+.blog-details {
+  padding: 4px;
 }

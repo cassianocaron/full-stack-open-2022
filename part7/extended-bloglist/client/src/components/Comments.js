@@ -1,15 +1,16 @@
 import { useField } from "../hooks/index";
-import { createComment } from "../reducers/blogReducer";
 import { useDispatch } from "react-redux";
+import { createComment } from "../reducers/blogReducer";
 import { Button, Grid, TextField } from "@mui/material";
 
 const Comments = ({ blog }) => {
-  const dispatch = useDispatch();
   const { reset: resetComment, ...comment } = useField("text");
+
+  const dispatch = useDispatch();
 
   const { id, comments } = blog;
 
-  const onSubmit = (event) => {
+  const handleComment = (event) => {
     event.preventDefault();
     dispatch(createComment(id, comment.value));
     resetComment();
@@ -18,7 +19,7 @@ const Comments = ({ blog }) => {
   return (
     <div>
       <h3>comments</h3>
-      <form onSubmit={onSubmit}>
+      <form onSubmit={handleComment}>
         <Grid container>
           <Grid item>
             <TextField label="write your thoughts" size="small" {...comment} />
@@ -32,8 +33,8 @@ const Comments = ({ blog }) => {
       </form>
       {comments.length > 0 ? (
         <ul>
-          {comments.map((comment) => (
-            <li key={comment}>{comment}</li>
+          {comments.map((comment, i) => (
+            <li key={i}>{comment}</li>
           ))}
         </ul>
       ) : (

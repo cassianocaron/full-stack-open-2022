@@ -4,11 +4,9 @@ import { Alert } from "@mui/material";
 const Notification = () => {
   const notification = useSelector((state) => state.notification);
 
-  if (notification && notification.includes("error")) {
-    return <Alert severity="error">{notification.substring(6)}</Alert>;
-  }
+  if (notification === null) return null;
 
-  return notification && <Alert severity="success">{notification}</Alert>;
+  return <Alert severity={notification.type}>{notification.message}</Alert>;
 };
 
 export default Notification;

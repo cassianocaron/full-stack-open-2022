@@ -3,14 +3,16 @@ import { createBlog } from "../reducers/blogReducer";
 import { useField } from "../hooks/index";
 import { TextField, Button } from "@mui/material";
 
-const BlogForm = () => {
-  const dispatch = useDispatch();
+const BlogForm = ({ togglableRef }) => {
   const { reset: resetTitle, ...title } = useField("text");
   const { reset: resetAuthor, ...author } = useField("text");
   const { reset: resetUrl, ...url } = useField("text");
 
+  const dispatch = useDispatch();
+
   const handleCreateBlog = async (event) => {
     event.preventDefault();
+    togglableRef.current.toggleVisibility();
 
     const newBlog = {
       title: title.value,

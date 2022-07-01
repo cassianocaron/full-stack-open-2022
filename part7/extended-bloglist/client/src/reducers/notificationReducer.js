@@ -10,7 +10,7 @@ const notificationSlice = createSlice({
   },
 });
 
-export const { setNotification } = notificationSlice.actions;
+const { setNotification } = notificationSlice.actions;
 
 let timeoutId = null;
 

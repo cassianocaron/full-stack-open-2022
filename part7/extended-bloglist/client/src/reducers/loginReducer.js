@@ -1,15 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
-import blogService from "../services/blogs";
-import loginService from "../services/login";
 import { createNotification } from "./notificationReducer";
+
+import userService from "../services/users";
+import loginService from "../services/login";
 
 const loginSlice = createSlice({
   name: "login",
   initialState: null,
   reducers: {
-    setUser(state, action) {
-      return action.payload;
-    },
     login(state, action) {
       return action.payload;
     },
@@ -19,40 +17,38 @@ const loginSlice = createSlice({
   },
 });
 
-export const { setUser, login, logout } = loginSlice.actions;
+export const { login, logout } = loginSlice.actions;
 
-export const loggedUser = () => {
+export const logUserIn = (credentials) => {
   return async (dispatch) => {
-    const loggedUserJSON = window.localStorage.getItem("loggedBlogappUser");
-    if (loggedUserJSON) {
-      const user = JSON.parse(loggedUserJSON);
-      blogService.setToken(user.token);
-      dispatch(setUser(user));
-    }
-  };
-};
-
-export const logUserIn = (user) => {
-  return async (dispatch) => {
-    const { username, password } = user;
+    const { username, password } = credentials;
     try {
       const user = await loginService.login({
         username,
         password,
       });
-      window.localStorage.setItem("loggedBlogappUser", JSON.stringify(user));
-      blogService.setToken(user.token);
+      userService.setUser(user);
       dispatch(login(user));
-      dispatch(createNotification(`Welcome ${user.name}!`, 5));
+      dispatch(
+        createNotification(
+          { message: `Welcome ${user.name}!`, type: "info" },
+          5
+        )
+      );
     } catch (error) {
-      dispatch(createNotification(`error ${error.response.data.error}`, 5));
+      dispatch(
+        createNotification(
+          { message: error.response.data.error, type: "error" },
+          5
+        )
+      );
     }
   };
 };
 
 export const logUserOut = () => {
   return async (dispatch) => {
-    window.localStorage.clear();
+    userService.clearUser();
     dispatch(logout(null));
   };
 };

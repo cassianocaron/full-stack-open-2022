@@ -1,22 +1,26 @@
-import { useDispatch } from "react-redux";
-import { likeBlog, deleteBlog } from "../reducers/blogReducer";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { likeBlog, deleteBlog } from "../reducers/blogReducer";
 import Comments from "./Comments";
 
-const Blog = ({ blog, user }) => {
-  if (!blog) return null;
-
+const Blog = () => {
+  const { id } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleLike = (blog) => {
+  const blog = useSelector((state) => state.blogs.find((b) => b.id === id));
+  const user = useSelector((state) => state.login);
+
+  if (!blog) return null;
+
+  const handleLike = () => {
     const { id } = blog;
     const blogToUpdate = { ...blog, likes: blog.likes + 1, user: blog.user.id };
     dispatch(likeBlog(id, blogToUpdate));
   };
 
-  const handleDelete = (blog) => {
+  const handleDelete = () => {
     if (window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)) {
       dispatch(deleteBlog(blog));
       navigate("/blogs");
@@ -28,14 +32,16 @@ const Blog = ({ blog, user }) => {
       <h2>
         {blog.title} - {blog.author}
       </h2>
-      <a href={blog.url}>{blog.url}</a>
-      <div>
+      <div className="blog-details">
+        <a href={blog.url}>{blog.url}</a>
+      </div>
+      <div className="blog-details">
         {blog.likes} likes{" "}
         <Button
           variant="contained"
           color="primary"
           size="small"
-          onClick={() => handleLike(blog)}
+          onClick={handleLike}
         >
           like
         </Button>{" "}
@@ -44,13 +50,13 @@ const Blog = ({ blog, user }) => {
             variant="contained"
             color="error"
             size="small"
-            onClick={() => handleDelete(blog)}
+            onClick={handleDelete}
           >
             delete
           </Button>
         )}
       </div>
-      <div>
+      <div className="blog-details">
         added by <strong>{blog.user.name}</strong>
       </div>
       <Comments blog={blog} />

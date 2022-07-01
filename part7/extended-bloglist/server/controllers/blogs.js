@@ -48,7 +48,10 @@ blogsRouter.post("/", async (request, response) => {
 
 blogsRouter.post("/:id/comments", async (request, response) => {
   const { comment } = request.body;
-  const blog = await Blog.findById(request.params.id);
+  const blog = await Blog.findById(request.params.id).populate("user", {
+    username: 1,
+    name: 1,
+  });
 
   blog.comments = blog.comments.concat(comment);
 

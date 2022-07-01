@@ -1,3 +1,6 @@
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+
 import {
   Table,
   TableHead,
@@ -7,18 +10,23 @@ import {
   TableRow,
   Paper,
 } from "@mui/material";
-import { Link } from "react-router-dom";
 
-const Users = ({ users }) => {
+const Users = () => {
+  const users = useSelector((state) => state.users);
+
   return (
     <div>
       <h2>Users</h2>
-      <TableContainer sx={{ minWidth: 650 }} component={Paper}>
+      <TableContainer sx={{ minWidth: 250 }} component={Paper}>
         <Table size="small">
           <TableHead>
             <TableRow>
-              <TableCell>name</TableCell>
-              <TableCell align="right">blogs created</TableCell>
+              <TableCell>
+                <strong>name</strong>
+              </TableCell>
+              <TableCell align="right">
+                <strong>blogs created</strong>
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
