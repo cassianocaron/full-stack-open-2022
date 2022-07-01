@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useMatch, useNavigate, Routes, Route } from "react-router-dom";
+import { Container } from "@mui/material";
 
 import Menu from "./components/Menu";
 import AnecdoteList from "./components/AnecdoteList";
@@ -66,10 +67,13 @@ const App = () => {
     ? anecdotes.find((anecdote) => anecdote.id === Number(match.params.id))
     : null;
 
+  console.log(anecdotes);
+  console.log(anecdote);
+
   return (
-    <div>
-      <h1>Software anecdotes</h1>
+    <Container>
       <Menu />
+      <h1>Software anecdotes</h1>
       <Notification notification={notification} />
       <Routes>
         <Route
@@ -81,7 +85,7 @@ const App = () => {
         <Route path="/about" element={<About />} />
       </Routes>
       <Footer />
-    </div>
+    </Container>
   );
 };
 

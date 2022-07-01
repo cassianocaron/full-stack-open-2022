@@ -1,4 +1,5 @@
 import { useField } from "../hooks/index";
+import { TextField, Button } from "@mui/material";
 
 const CreateNew = (props) => {
   const { reset: resetContent, ...content } = useField("text");
@@ -24,22 +25,25 @@ const CreateNew = (props) => {
 
   return (
     <div>
-      <h2>create a new anecdote</h2>
+      <h2>Create a new anecdote</h2>
       <form>
         <div>
-          content
-          <input {...content} />
+          <TextField label="content" {...content} />
         </div>
         <div>
-          author
-          <input {...author} />
+          <TextField label="author" {...author} />
         </div>
         <div>
-          url for more info
-          <input {...info} />
+          <TextField label="info" {...info} />
         </div>
-        <button onClick={handleSubmit}>create</button>
-        <button onClick={handleReset}>reset</button>
+        <div>
+          <Button variant="contained" color="primary" onClick={handleSubmit}>
+            create
+          </Button>
+          <Button variant="contained" color="error" onClick={handleReset}>
+            reset
+          </Button>
+        </div>
       </form>
     </div>
   );

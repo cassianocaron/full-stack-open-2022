@@ -1,11 +1,13 @@
+import { Alert } from "@mui/material";
+
 const Notification = ({ notification }) => {
   if (notification === null) return null;
 
-  if (notification.includes("error")) {
-    return <div className="error">{notification.substring(5)}</div>;
-  }
-
-  return <div className="success">{notification}</div>;
+  return (
+    <div className="container">
+      {notification && <Alert severity="success">{notification}</Alert>}
+    </div>
+  );
 };
 
 export default Notification;

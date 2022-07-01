@@ -1,18 +1,5 @@
-.error,
-.success {
-  background: lightgrey;
-  font-size: 16px;
-  border-style: solid;
-  border-width: 2px;
-  border-radius: 4px;
-  padding: 6px;
-  margin-top: 20px;
-}
+/* @import url("https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap");
 
-.error {
-  color: red;
-}
-
-.success {
-  color: green;
-}
+* {
+  font-family: "Roboto Slab", serif;
+} */
