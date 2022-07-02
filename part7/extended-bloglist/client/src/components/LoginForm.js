@@ -1,6 +1,5 @@
 import { useField } from "../hooks/index";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { logUserIn } from "../reducers/loginReducer";
 import { TextField, Button } from "@mui/material";
 
@@ -11,7 +10,6 @@ const LoginForm = () => {
   const { reset: resetPassword, ...password } = useField("password");
 
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const handleLogin = (event) => {
     event.preventDefault();
@@ -22,7 +20,6 @@ const LoginForm = () => {
     dispatch(logUserIn(credentials));
     resetUsername();
     resetPassword();
-    navigate("/blogs");
   };
 
   return (

@@ -2,7 +2,6 @@ import { useField } from "../hooks/index";
 import { useDispatch } from "react-redux";
 import { createComment } from "../reducers/blogReducer";
 import { Button, Grid, TextField } from "@mui/material";
-import { createNotification } from "../reducers/notificationReducer";
 
 const Comments = ({ blog }) => {
   const { reset: resetComment, ...comment } = useField("text");
@@ -13,15 +12,9 @@ const Comments = ({ blog }) => {
 
   const handleComment = (event) => {
     event.preventDefault();
-    if (!comment.value) {
-      dispatch(
-        createNotification(
-          { message: "Write something down first...", type: "warning" },
-          5
-        )
-      );
-      return;
-    }
+
+    if (!comment.value) return;
+
     dispatch(createComment(id, comment.value));
     resetComment();
   };

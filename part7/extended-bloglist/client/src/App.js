@@ -55,7 +55,7 @@ const App = () => {
         <BlogForm togglableRef={blogFormRef} />
       </Togglable>
       <Routes>
-        <Route path="/blogs" element={<BlogList />} />
+        <Route path="/" element={<BlogList />} />
         <Route path="/blogs/:id" element={<Blog />} />
         <Route path="/users" element={<Users />} />
         <Route path="/users/:id" element={<User />} />

@@ -16,9 +16,6 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 
-const pages = ["Blogs", "Users"];
-const settings = ["Logout"];
-
 const NavBar = () => {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
@@ -28,7 +25,7 @@ const NavBar = () => {
 
   const handleLogout = () => {
     dispatch(logUserOut());
-    navigate("/login");
+    navigate("/");
   };
 
   const handleOpenNavMenu = (event) => {
@@ -79,31 +76,36 @@ const NavBar = () => {
                 display: { xs: "block", md: "none" },
               }}
             >
-              {pages.map((page) => (
-                <MenuItem
-                  key={page}
-                  component={Link}
-                  to={`/${page.toLowerCase()}`}
-                  onClick={handleCloseNavMenu}
-                >
-                  <Typography textAlign="center">{page}</Typography>
-                </MenuItem>
-              ))}
+              <MenuItem component={Link} to="/" onClick={handleCloseNavMenu}>
+                <Typography textAlign="center">Blogs</Typography>
+              </MenuItem>
+              <MenuItem
+                component={Link}
+                to="/users"
+                onClick={handleCloseNavMenu}
+              >
+                <Typography textAlign="center">Users</Typography>
+              </MenuItem>
             </Menu>
           </Box>
 
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                component={Link}
-                to={`/${page.toLowerCase()}`}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: "white", display: "block" }}
-              >
-                {page}
-              </Button>
-            ))}
+            <Button
+              component={Link}
+              to="/"
+              onClick={handleCloseNavMenu}
+              sx={{ my: 2, color: "white", display: "block" }}
+            >
+              blogs
+            </Button>
+            <Button
+              component={Link}
+              to="/users"
+              onClick={handleCloseNavMenu}
+              sx={{ my: 2, color: "white", display: "block" }}
+            >
+              users
+            </Button>
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
@@ -128,13 +130,11 @@ const NavBar = () => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center" onClick={handleLogout}>
-                    {setting}
-                  </Typography>
-                </MenuItem>
-              ))}
+              <MenuItem onClick={handleCloseUserMenu}>
+                <Typography textAlign="center" onClick={handleLogout}>
+                  Logout
+                </Typography>
+              </MenuItem>
             </Menu>
           </Box>
         </Toolbar>
