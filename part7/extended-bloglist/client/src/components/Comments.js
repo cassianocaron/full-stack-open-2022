@@ -13,9 +13,9 @@ const Comments = ({ blog }) => {
   const handleComment = (event) => {
     event.preventDefault();
 
-    if (!comment.value) return;
+    if (!comment.value.trim()) return;
 
-    dispatch(createComment(id, comment.value));
+    dispatch(createComment(id, comment.value.trim()));
     resetComment();
   };
 

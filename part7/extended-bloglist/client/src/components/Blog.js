@@ -23,7 +23,7 @@ const Blog = () => {
   const handleDelete = () => {
     if (window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)) {
       dispatch(deleteBlog(blog));
-      navigate("/blogs");
+      navigate("/");
     }
   };
 
