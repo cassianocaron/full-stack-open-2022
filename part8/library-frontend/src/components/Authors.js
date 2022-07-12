@@ -36,7 +36,10 @@ const Authors = (props) => {
           ))}
         </tbody>
       </table>
-      <SetBirthyear setError={props.setError} />
+      <SetBirthyear
+        names={authors.map((a) => a.name)}
+        setError={props.setError}
+      />
     </div>
   );
 };
