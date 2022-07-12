@@ -1,14 +1,19 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useMutation } from "@apollo/client";
 
 import { ALL_AUTHORS, EDIT_AUTHOR } from "../queries";
 
-const SetBirthyear = () => {
+const SetBirthyear = ({ setError }) => {
   const [name, setName] = useState("");
   const [born, setBorn] = useState("");
 
-  const [editAuthor] = useMutation(EDIT_AUTHOR, {
+  const [editAuthor, result] = useMutation(EDIT_AUTHOR, {
     refetchQueries: [{ query: ALL_AUTHORS }],
+    onError: (error) => {
+      error.graphQLErrors > 0
+        ? setError(error.graphQLErrors[0].message)
+        : setError("Fill out all the required fields");
+    },
   });
 
   const handleSubmit = async (event) => {
@@ -20,6 +25,12 @@ const SetBirthyear = () => {
     setBorn("");
   };
 
+  useEffect(() => {
+    if (result.data && result.data.editAuthor === null) {
+      setError("Author not found");
+    }
+  }, [result.data]); // eslint-disable-line
+
   return (
     <div>
       <h2>Set birthyear</h2>
@@ -27,6 +38,7 @@ const SetBirthyear = () => {
         <div>
           name
           <input
+            type="text"
             value={name}
             onChange={({ target }) => setName(target.value)}
           />
@@ -34,6 +46,7 @@ const SetBirthyear = () => {
         <div>
           born
           <input
+            type="number"
             value={born}
             onChange={({ target }) => setBorn(target.value)}
           />
