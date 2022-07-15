@@ -102,3 +102,9 @@ Learn React, Redux, Node.js, MongoDB, GraphQL, TypeScript, React Native, GitHub 
 - Using relational databases with Sequelize
 - Join tables and queries
 - Migrations, many-to-many relationships
+
+## Course Certificates
+
+<p align="center">
+  <img height="60%" width="100%" src="./certificates/certificate-fullstack.png" alt="FullStack Certificate">
+</p>
