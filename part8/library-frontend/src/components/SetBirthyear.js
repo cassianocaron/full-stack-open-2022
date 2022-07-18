@@ -12,7 +12,7 @@ const SetBirthyear = ({ names, setError }) => {
     onError: (error) => {
       error.graphQLErrors > 0
         ? setError(error.graphQLErrors[0].message)
-        : setError("Fill out all the required fields");
+        : setError(error.message);
     },
   });
 
