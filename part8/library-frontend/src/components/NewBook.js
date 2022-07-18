@@ -15,7 +15,7 @@ const NewBook = (props) => {
     onError: (error) => {
       error.graphQLErrors > 0
         ? props.setError(error.graphQLErrors[0].message)
-        : props.setError("Fill out all the required fields");
+        : props.setError(error.message);
     },
   });
 
