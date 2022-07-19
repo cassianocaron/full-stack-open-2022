@@ -14,6 +14,13 @@ const App = () => {
   const client = useApolloClient();
 
   useEffect(() => {
+    const userFromStorage = localStorage.getItem("library-user-token");
+    if (userFromStorage) {
+      setToken(userFromStorage);
+    }
+  }, []);
+
+  useEffect(() => {
     const timer = setTimeout(() => {
       setErrorMessage(null);
     }, 5000);
