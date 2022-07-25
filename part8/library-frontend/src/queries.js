@@ -24,18 +24,13 @@ export const ALL_AUTHORS = gql`
 `;
 
 export const ALL_BOOKS = gql`
-  query {
-    allBooks {
-      title
-      author {
-        name
-      }
-      published
-      genres
+  query allBooks($author: String, $genre: String) {
+    allBooks(author: $author, genre: $genre) {
+      ...BookDetails
     }
   }
+  ${BOOK_DETAILS}
 `;
-
 export const ADD_BOOK = gql`
   mutation addBook(
     $title: String!
