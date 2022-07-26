@@ -9,6 +9,8 @@ const Author = require("./models/author");
 const Book = require("./models/book");
 const User = require("./models/user");
 
+let books;
+
 const resolvers = {
   Query: {
     me: (root, args, context) => {
@@ -16,7 +18,10 @@ const resolvers = {
     },
     authorCount: async () => Author.collection.countDocuments(),
     bookCount: async () => Book.collection.countDocuments(),
-    allAuthors: async () => Author.find({}),
+    allAuthors: async () => {
+      books = await Book.find();
+      return Author.find({});
+    },
     allBooks: async (root, args) => {
       if (args.author && args.genre) {
         const author = await Author.findOne({ name: args.author });
@@ -41,8 +46,9 @@ const resolvers = {
     },
   },
   Author: {
-    bookCount: async (root) =>
-      await Book.find({ author: root.id }).countDocuments(),
+    bookCount: async (root) => {
+      return books.filter((b) => String(b.author) === String(root.id)).length;
+    },
   },
   Mutation: {
     addBook: async (root, args, context) => {
