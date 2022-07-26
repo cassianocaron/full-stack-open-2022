@@ -10,22 +10,6 @@ import Notify from "./components/Notify";
 import LoginForm from "./components/LoginForm";
 import Recommend from "./components/Recommend";
 
-// function that takes care of manipulating cache
-export const updateCache = (cache, query, addedBook) => {
-  const uniqByName = (a) => {
-    let seen = new Set();
-    return a.filter((item) => {
-      let k = item.name;
-      return seen.has(k) ? false : seen.add(k);
-    });
-  };
-  cache.updateQuery(query, ({ allBooks }) => {
-    return {
-      allBooks: uniqByName(allBooks.concat(addedBook)),
-    };
-  });
-};
-
 const App = () => {
   const [page, setPage] = useState("authors");
   const [message, setMessage] = useState(null);
@@ -48,12 +32,25 @@ const App = () => {
     };
   }, [message]);
 
+  const updateCacheWith = (addedBook) => {
+    const includedIn = (set, object) =>
+      set.map((p) => p.id).includes(object.id);
+
+    const dataInStore = client.readQuery({ query: ALL_BOOKS });
+    if (!includedIn(dataInStore.allBooks, addedBook)) {
+      client.writeQuery({
+        query: ALL_BOOKS,
+        data: { allBooks: dataInStore.allBooks.concat(addedBook) },
+      });
+    }
+  };
+
   useSubscription(BOOK_ADDED, {
     onSubscriptionData: ({ subscriptionData }) => {
       const addedBook = subscriptionData.data.bookAdded;
       setMessage(`${addedBook.title} added`);
 
-      updateCache(client.cache, { query: ALL_BOOKS }, addedBook);
+      updateCacheWith(addedBook);
     },
   });
 
