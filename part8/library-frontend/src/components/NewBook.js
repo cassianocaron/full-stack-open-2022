@@ -10,14 +10,7 @@ const NewBook = (props) => {
   const [genre, setGenre] = useState("");
   const [genres, setGenres] = useState([]);
 
-  const [addBook] = useMutation(ADD_BOOK, {
-    refetchQueries: [{ query: ALL_BOOKS }, { query: ALL_AUTHORS }],
-    onError: (error) => {
-      error.graphQLErrors > 0
-        ? props.setError(error.graphQLErrors[0].message)
-        : props.setError(error.message);
-    },
-  });
+  const [addBook] = useMutation(ADD_BOOK);
 
   if (!props.show) {
     return null;
@@ -25,9 +18,36 @@ const NewBook = (props) => {
 
   const submit = async (event) => {
     event.preventDefault();
-
     addBook({
-      variables: { title, author, published: parseInt(published), genres },
+      variables: {
+        title,
+        author,
+        genres,
+        published: Number(published),
+      },
+      refetchQueries: [{ query: ALL_BOOKS }, { query: ALL_AUTHORS }],
+      update: (store, response) => {
+        genres.forEach((genre) => {
+          try {
+            const dataInStore = store.readQuery({
+              query: ALL_BOOKS,
+              variables: { genre },
+            });
+
+            store.writeQuery({
+              query: ALL_BOOKS,
+              variables: { genre },
+              data: {
+                allBooks: [...dataInStore.allBooks].concat(
+                  response.data.addBook
+                ),
+              },
+            });
+          } catch (error) {
+            props.setError(error);
+          }
+        });
+      },
     });
 
     setTitle("");
