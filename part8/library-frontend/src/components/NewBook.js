@@ -44,7 +44,7 @@ const NewBook = (props) => {
               },
             });
           } catch (error) {
-            props.setError(error);
+            console.log(`${genre} not queried`);
           }
         });
       },

@@ -78,7 +78,7 @@ const App = () => {
       <Notify message={message} />
       <Authors show={page === "authors"} setError={setMessage} />
       <Books show={page === "books"} />
-      <NewBook show={page === "add"} setError={setMessage} />
+      <NewBook show={page === "add"} />
       <LoginForm
         show={page === "login"}
         setToken={setToken}
