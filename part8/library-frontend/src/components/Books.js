@@ -9,7 +9,7 @@ const Books = (props) => {
     fetchPolicy: "no-cache",
   });
   const [genre, setGenre] = useState("all");
-  const [books, setBooks] = useState([]);
+  const [books, setBooks] = useState(null);
 
   useEffect(() => {
     if (result.data) {
@@ -23,7 +23,7 @@ const Books = (props) => {
     }
   }, [genreResult.data]);
 
-  if (!props.show) {
+  if (!props.show || !books) {
     return null;
   }
 
@@ -32,7 +32,7 @@ const Books = (props) => {
   }
 
   if (result.error || genreResult.error) {
-    return <div>error :(</div>;
+    return <div>Something went wrong</div>;
   }
 
   const { allBooks } = result.data;
