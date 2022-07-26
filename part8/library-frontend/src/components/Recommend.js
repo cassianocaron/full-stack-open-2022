@@ -17,7 +17,8 @@ const Recommend = (props) => {
     return <p>Something went wrong</p>;
   }
 
-  const { favoriteGenre } = user.data.me;
+  const favoriteGenre = user?.data?.me?.favoriteGenre;
+
   const bookRecommendations = books.data.allBooks.filter((b) =>
     b.genres.includes(favoriteGenre)
   );
