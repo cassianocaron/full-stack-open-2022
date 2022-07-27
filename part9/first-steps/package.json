@@ -4,7 +4,7 @@
   "description": "first typescript exercises",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "calculateBmi": "ts-node bmiCalculator.ts"
   },
   "keywords": [],
   "author": "Cassiano Caron",
