@@ -4,7 +4,8 @@
   "description": "first typescript exercises",
   "main": "index.js",
   "scripts": {
-    "calculateBmi": "ts-node bmiCalculator.ts"
+    "calculateBmi": "ts-node bmiCalculator.ts",
+    "calculateExercises": "ts-node exerciseCalculator.ts"
   },
   "keywords": [],
   "author": "Cassiano Caron",
