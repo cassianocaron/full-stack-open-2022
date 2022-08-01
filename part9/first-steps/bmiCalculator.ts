@@ -1,28 +1,37 @@
 const rls = require("readline-sync");
 
-interface Values {
-  value1: number;
-  value2: number;
+interface rawValues {
+  rawHeight: string;
+  rawWeight: string;
 }
 
-const height = rls.question("Enter your height in cm: ");
-const weight = rls.question("Enter your weight in kg: ");
+interface parsedValues {
+  parsedHeight: number;
+  parsedWeight: number;
+}
 
-const parseInput = (height: string, weight: string): Values => {
-  if (Number(height) <= 0 || Number(weight) <= 0) {
+const getInput = (): rawValues => {
+  const rawHeight = rls.question("Enter your height in cm: ");
+  const rawWeight = rls.question("Enter your weight in kg: ");
+
+  return { rawHeight, rawWeight };
+};
+
+const parseInput = (rawHeight: string, rawWeight: string): parsedValues => {
+  if (Number(rawHeight) <= 0 || Number(rawWeight) <= 0) {
     throw new Error("Height and weight must be a positive value!");
   }
-  if (!isNaN(Number(height)) && !isNaN(Number(weight))) {
+  if (!isNaN(Number(rawHeight)) && !isNaN(Number(rawWeight))) {
     return {
-      value1: Number(height),
-      value2: Number(weight),
+      parsedHeight: Number(rawHeight),
+      parsedWeight: Number(rawWeight),
     };
   } else {
     throw new Error("Provided values were not numbers!");
   }
 };
 
-const calculateBmi = (height: number, weight: number): string => {
+export const calculateBmi = (height: number, weight: number): string => {
   const bmi = weight / (height / 100) ** 2;
   console.log(`BMI: ${Math.round((bmi + Number.EPSILON) * 100) / 100}`);
 
@@ -39,8 +48,9 @@ const calculateBmi = (height: number, weight: number): string => {
 };
 
 try {
-  const { value1, value2 } = parseInput(height, weight);
-  console.log(calculateBmi(value1, value2));
+  const { rawHeight, rawWeight } = getInput();
+  const { parsedHeight, parsedWeight } = parseInput(rawHeight, rawWeight);
+  console.log(calculateBmi(parsedHeight, parsedWeight));
 } catch (error: unknown) {
   let errorMessage = "Something bad happened.";
   if (error instanceof Error) {
