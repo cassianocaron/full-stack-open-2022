@@ -1,4 +1,4 @@
-const rls = require("readline-sync");
+import { question } from "readline-sync";
 
 interface rawValues {
   rawHeight: string;
@@ -11,8 +11,8 @@ interface parsedValues {
 }
 
 const getInput = (): rawValues => {
-  const rawHeight = rls.question("Enter your height in cm: ");
-  const rawWeight = rls.question("Enter your weight in kg: ");
+  const rawHeight = question("Enter your height in cm: ");
+  const rawWeight = question("Enter your weight in kg: ");
 
   return { rawHeight, rawWeight };
 };

@@ -1,4 +1,4 @@
-const rls = require("readline-sync");
+import { question } from "readline-sync";
 
 interface rawValues {
   rawTarget: string;
@@ -21,13 +21,13 @@ interface Result {
 }
 
 const getInput = (): rawValues => {
-  const rawTarget = rls.question("What is your target value? ");
+  const rawTarget = question("What is your target value? ");
 
   let dayNumber = 1;
   const rawDailyHours: string[] = [];
 
   while (true) {
-    const input = rls.question(
+    const input = question(
       `How many hours did you exercise on day ${dayNumber}? (Press 'enter' to quit): `
     );
 
@@ -77,7 +77,7 @@ export const calculateExercises = (
   const getRating = (average: number, target: number): number => {
     if (average < target * 0.9) return 1;
     if (average < target) return 2;
-    if (average >= target) return 3;
+    return 3;
   };
 
   const getRatingDescription = (rating: number): string => {
@@ -87,9 +87,7 @@ export const calculateExercises = (
     if (rating === 2) {
       return "Good job but try doing better next week!";
     }
-    if (rating === 3) {
-      return "Nice work! Keep it up!";
-    }
+    return "Nice work! Keep it up!";
   };
 
   const rating = getRating(average, target);
