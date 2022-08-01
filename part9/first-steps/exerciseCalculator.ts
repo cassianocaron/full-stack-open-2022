@@ -1,3 +1,15 @@
+const rls = require("readline-sync");
+
+interface rawValues {
+  rawTarget: string;
+  rawDailyHours: string[];
+}
+
+interface parsedValues {
+  parsedTarget: number;
+  parsedDailyHours: number[];
+}
+
 interface Result {
   periodLenght: number;
   trainingDays: number;
@@ -8,7 +20,57 @@ interface Result {
   average: number;
 }
 
-const calculateExercises = (dailyHours: number[], target: number): Result => {
+const getInput = (): rawValues => {
+  const rawTarget = rls.question("What is your target value? ");
+
+  // Create an array with values from 0 to 99
+  const numbers = Array.from(Array(100).keys());
+  const rawDailyHours: string[] = [];
+
+  for (const number of numbers) {
+    const input = rls.question(
+      `How many hours did you exercise on day ${
+        number + 1
+      }? (Press 'enter' to quit): `
+    );
+
+    if (input) {
+      rawDailyHours.push(input);
+    } else {
+      break;
+    }
+  }
+
+  return { rawTarget, rawDailyHours };
+};
+
+const parseInput = (
+  rawTarget: string,
+  rawDailyHours: string[]
+): parsedValues => {
+  if (Number(rawTarget) <= 0) {
+    throw new Error("Target must be a positive value!");
+  }
+  if (rawDailyHours.length === 0) {
+    throw new Error("Provide at least one value for exercised days!");
+  }
+  if (
+    !isNaN(Number(rawTarget)) &&
+    !rawDailyHours.map((hour) => Number(hour)).some(isNaN)
+  ) {
+    return {
+      parsedTarget: Number(rawTarget),
+      parsedDailyHours: rawDailyHours.map((hour) => Number(hour)),
+    };
+  } else {
+    throw new Error("Provided values were not numbers!");
+  }
+};
+
+export const calculateExercises = (
+  target: number,
+  dailyHours: number[]
+): Result => {
   const periodLenght = dailyHours.length;
   const trainingDays = dailyHours.filter((hour) => hour > 0).length;
   const average = dailyHours.reduce((a, b) => a + b, 0) / periodLenght;
@@ -46,4 +108,14 @@ const calculateExercises = (dailyHours: number[], target: number): Result => {
   };
 };
 
-console.log(calculateExercises([3, 0, 2, 4.5, 0, 3, 1], 2));
+try {
+  const { rawTarget, rawDailyHours } = getInput();
+  const { parsedTarget, parsedDailyHours } = parseInput(
+    rawTarget,
+    rawDailyHours
+  );
+  console.log(calculateExercises(parsedTarget, parsedDailyHours));
+} catch (error) {
+  if (error instanceof Error)
+    console.log("Error, something bad happened, message: ", error.message);
+}
