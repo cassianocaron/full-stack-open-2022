@@ -23,19 +23,17 @@ interface Result {
 const getInput = (): rawValues => {
   const rawTarget = rls.question("What is your target value? ");
 
-  // Create an array with values from 0 to 99
-  const numbers = Array.from(Array(100).keys());
+  let dayNumber = 1;
   const rawDailyHours: string[] = [];
 
-  for (const number of numbers) {
+  while (true) {
     const input = rls.question(
-      `How many hours did you exercise on day ${
-        number + 1
-      }? (Press 'enter' to quit): `
+      `How many hours did you exercise on day ${dayNumber}? (Press 'enter' to quit): `
     );
 
     if (input) {
       rawDailyHours.push(input);
+      dayNumber++;
     } else {
       break;
     }
