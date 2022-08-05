@@ -26,6 +26,7 @@ const getInput = (): rawValues => {
   let dayNumber = 1;
   const rawDailyHours: string[] = [];
 
+  // eslint-disable-next-line no-constant-condition
   while (true) {
     const input = question(
       `How many hours did you exercise on day ${dayNumber}? (Press 'enter' to quit): `
@@ -42,15 +43,15 @@ const getInput = (): rawValues => {
   return { rawTarget, rawDailyHours };
 };
 
-const parseInput = (
+export const parseInput = (
   rawTarget: string,
   rawDailyHours: string[]
 ): parsedValues => {
   if (Number(rawTarget) <= 0) {
     throw new Error("Target must be a positive value!");
   }
-  if (rawDailyHours.length === 0) {
-    throw new Error("Provide at least one value for exercised days!");
+  if (!Array.isArray(rawDailyHours)) {
+    throw new Error("Exercised days must be an array of values!");
   }
   if (
     !isNaN(Number(rawTarget)) &&
