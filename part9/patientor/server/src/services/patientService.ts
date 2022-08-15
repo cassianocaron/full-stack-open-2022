@@ -6,7 +6,7 @@ const getPatients = (): Array<Patient> => {
   return patientsData;
 };
 
-const getNonSensisitivePatientsData = (): Array<NonSensitivePatientData> => {
+const getNonSensitivePatientsData = (): Array<NonSensitivePatientData> => {
   return patientsData.map((patient) => ({
     id: patient.id,
     name: patient.name,
@@ -16,4 +16,4 @@ const getNonSensisitivePatientsData = (): Array<NonSensitivePatientData> => {
   }));
 };
 
-export default { getPatients, getNonSensisitivePatientsData };
+export default { getPatients, getNonSensitivePatientsData };
