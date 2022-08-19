@@ -4,9 +4,9 @@ const isString = (text: unknown): text is string => {
   return typeof text === "string" || text instanceof String;
 };
 
-const parseEntry = (value: unknown): string => {
+const parseValue = (value: unknown, field: string): string => {
   if (!value || !isString(value)) {
-    throw new Error(`Incorrect or missing value: ${value}`);
+    throw new Error(`Incorrect or missing ${field}: ${value}`);
   }
   return value;
 };
@@ -38,10 +38,10 @@ const parseGender = (gender: unknown): Gender => {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const toNewPatient = (object: any): NewPatient => {
   const newEntry: NewPatient = {
-    name: parseEntry(object.name),
-    ssn: parseEntry(object.ssn),
+    name: parseValue(object.name, "name"),
+    ssn: parseValue(object.ssn, "ssn"),
     dateOfBirth: parseDate(object.dateOfBirth),
-    occupation: parseEntry(object.occupation),
+    occupation: parseValue(object.occupation, "occupation"),
     gender: parseGender(object.gender),
   };
   return newEntry;

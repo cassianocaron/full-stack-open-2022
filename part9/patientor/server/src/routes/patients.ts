@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import express from "express";
 import patientService from "../services/patientService";
 import toNewPatient from "../utils";

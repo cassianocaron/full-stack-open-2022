@@ -17,9 +17,9 @@ const getNonSensitivePatientsData = (): Array<NonSensitivePatientData> => {
   }));
 };
 
-const addPatient = (entry: NewPatient): Patient => {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
-  const newPatient = { id: uuid(), ...entry };
+const addPatient = (patient: NewPatient): Patient => {
+  const id = uuid();
+  const newPatient = { id, ...patient };
   patientsData.push(newPatient);
   return newPatient;
 };
