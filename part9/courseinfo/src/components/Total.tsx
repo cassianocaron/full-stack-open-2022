@@ -1,12 +1,8 @@
-interface Parts {
-  name: string;
-  exerciseCount: number;
-}
+import { CoursePart } from "../types";
 
-const Total = (courseParts: Parts[]) => {
-  return (
-    <p>{courseParts.reduce((carry, part) => carry + part.exerciseCount, 0)}</p>
-  );
+const Total = ({ parts }: { parts: CoursePart[] }) => {
+  const total = parts.reduce((carry, part) => carry + part.exerciseCount, 0);
+  return <p>Number of exercises {total}</p>;
 };
 
 export default Total;
